@@ -1,6 +1,7 @@
 package com.luccasaps.workshopspringbootmongodb.resources;
 
 
+import com.luccasaps.workshopspringbootmongodb.domain.Post;
 import com.luccasaps.workshopspringbootmongodb.domain.User;
 import com.luccasaps.workshopspringbootmongodb.dto.UserDTO;
 import com.luccasaps.workshopspringbootmongodb.services.UserService;
@@ -34,6 +35,12 @@ public class UserResource {
         return ResponseEntity.ok().body(new UserDTO(obj));
     }
 
+    @RequestMapping(value = "/{id}/posts", method = RequestMethod.GET)
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id){
+        User obj = service.findById(id);
+        return ResponseEntity.ok().body(obj.getPosts());
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> insert(@RequestBody UserDTO objDto){
         User obj = service.fromDto(objDto);
@@ -55,5 +62,7 @@ public class UserResource {
         service.update(obj);
         return ResponseEntity.noContent().build();
     }
+
+
 
 }
